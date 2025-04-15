@@ -1,5 +1,5 @@
 # CRC32-files-check
-Checks CRC32 to see if files in the folder have changed
+Checks CRC32 to see if files in the folder have changed.
 ## Usage
 ```sh
 Commands:
