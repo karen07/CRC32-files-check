@@ -19,7 +19,7 @@ if [ ! -x "$exec_path" ]; then
     exit 1
 fi
 
-#Folder arg
+# Folder arg
 echo "Checking that the folder is set as an argument"
 run_res="$($exec_path)"
 grep_run_res="$(echo "$run_res" | grep "The program need correct check folder")"
@@ -30,9 +30,9 @@ else
     echo "GOOD"
     echo ""
 fi
-#Folder arg
+# Folder arg
 
-#Folder time arg
+# Folder time arg
 echo "Checking that the time is set as an argument"
 run_res="$($exec_path -f "$test_folder")"
 grep_run_res="$(echo "$run_res" | grep "The program need correct check folder time")"
@@ -43,9 +43,9 @@ else
     echo "GOOD"
     echo ""
 fi
-#Folder time arg
+# Folder time arg
 
-#Folder exist
+# Folder exist
 echo "Checking that the folder exists"
 run_res="$($exec_path -f "$test_folder" -t "$test_time")"
 grep_run_res="$(echo "$run_res" | grep "Can't open folder")"
@@ -56,20 +56,20 @@ else
     echo "GOOD"
     echo ""
 fi
-#Folder exist
+# Folder exist
 
 mkdir "$test_folder"
 
-#Gen random files
+# Gen random files
 for i in $(seq 1 "$files_count"); do
     tr -dc A-Za-z0-9 </dev/urandom | head -c "$files_size" >"$test_folder/$i.txt"
 done
-#Gen random files
+# Gen random files
 
-#Check by signal
+# Check by signal
 echo "Files integrity check via USR1"
 "$exec_path" -f "$test_folder" -t "$test_time" >/dev/null &
-pid="$(pgrep -f $prog_name)"
+pid="$(pgrep -f "$prog_name")"
 sleep 1
 kill -s USR1 "$pid"
 sleep 1
@@ -85,14 +85,14 @@ else
     echo ""
 fi
 kill -s TERM "$pid"
-#Check by signal
+# Check by signal
 
-#Check by signal ENV
+# Check by signal ENV
 echo "Files integrity check via USR1 ENV"
 export CHECK_FOLDER="$test_folder"
 export CHECK_FOLDER_TIME="$test_time"
 "$exec_path" >/dev/null &
-pid="$(pgrep -f $prog_name)"
+pid="$(pgrep -f "$prog_name")"
 sleep 1
 kill -s USR1 "$pid"
 sleep 1
@@ -110,12 +110,12 @@ fi
 kill -s TERM "$pid"
 unset CHECK_FOLDER
 unset CHECK_FOLDER_TIME
-#Check by signal ENV
+# Check by signal ENV
 
-#Check by timeout
+# Check by timeout
 echo "Files integrity check via Timeout"
 "$exec_path" -f "$test_folder" -t "$test_time" >/dev/null &
-pid="$(pgrep -f $prog_name)"
+pid="$(pgrep -f "$prog_name")"
 sleep "$((test_time + 1))"
 out_res="$(journalctl | grep " $prog_name\[$pid\]" | grep "OK")"
 if [ -z "$out_res" ]; then
@@ -129,12 +129,12 @@ else
     echo ""
 fi
 kill -s TERM "$pid"
-#Check by timeout
+# Check by timeout
 
-#Check by signal file change
+# Check by signal file change
 echo "Files not integrity check via USR1"
 "$exec_path" -f "$test_folder" -t "$test_time" >/dev/null &
-pid="$(pgrep -f $prog_name)"
+pid="$(pgrep -f "$prog_name")"
 sleep 1
 echo 1 >>"$test_folder/$test_file_num.txt"
 kill -s USR1 "$pid"
@@ -151,12 +151,12 @@ else
     echo ""
 fi
 kill -s TERM "$pid"
-#Check by signal file change
+# Check by signal file change
 
-#Check by timeout file change
+# Check by timeout file change
 echo "Files not integrity check via Timeout"
 "$exec_path" -f "$test_folder" -t "$test_time" >/dev/null &
-pid="$(pgrep -f $prog_name)"
+pid="$(pgrep -f "$prog_name")"
 sleep 1
 echo 1 >>"$test_folder/$test_file_num.txt"
 sleep "$((test_time + 1))"
@@ -172,12 +172,12 @@ else
     echo ""
 fi
 kill -s TERM "$pid"
-#Check by timeout file change
+# Check by timeout file change
 
-#Check by correct timeout
+# Check by correct timeout
 echo "Checking that the signal does not break Timeout"
 "$exec_path" -f "$test_folder" -t "$test_time" >/dev/null &
-pid="$(pgrep -f $prog_name)"
+pid="$(pgrep -f "$prog_name")"
 sleep "$((test_time + 1))"
 kill -s USR1 "$pid"
 sleep "$((test_time + 1))"
@@ -198,7 +198,7 @@ else
     echo ""
 fi
 kill -s TERM "$pid"
-#Check by correct timeout
+# Check by correct timeout
 
 rm -rf "$test_folder"
 pkill -f "$prog_name"
