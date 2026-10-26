@@ -1,16 +1,17 @@
 # CRC32 files check
 
-CRC32 files check is a small file-content monitor that records CRC32 checksums for regular files present in a directory at startup and periodically checks whether those files have changed.
-
-The program is intentionally simple: it opens the initial set of regular files, keeps their current checksums in memory, and reports later checksum changes to stdout and syslog. The directory and polling interval can be supplied either through command-line arguments or environment variables.
-
-CRC32 is used here as a fast change detector, not as a cryptographic integrity mechanism. The program does not provide authenticated integrity and is not intended to detect every possible directory-level change such as newly added files.
+CRC32 files check monitors regular files in a directory for content changes. It records
+their CRC32 checksums at startup, periodically checks for changes, and reports updates to
+stdout and syslog.
 
 ## Описание
 
-CRC32 files check - небольшой монитор содержимого файлов. При запуске он запоминает CRC32 для обычных файлов, уже находящихся в указанном каталоге, и затем периодически проверяет, изменилось ли содержимое этих файлов.
+CRC32 files check отслеживает изменения обычных файлов в заданном каталоге. При запуске
+программа запоминает их CRC32, затем периодически проверяет содержимое и сообщает об
+изменениях в stdout и syslog.
 
-Программа намеренно сделана простой: она открывает исходный набор файлов, хранит их текущие контрольные суммы в памяти и сообщает о последующих изменениях через stdout и syslog. Каталог и интервал проверки можно задать аргументами командной строки или переменными окружения.
+Программа отслеживает набор файлов, обнаруженный при запуске. Каталог и интервал проверки
+задаются аргументами командной строки или переменными окружения.
 
 CRC32 используется здесь как быстрый способ обнаружения изменений, а не как криптографический механизм контроля целостности. Программа не обеспечивает аутентифицированную проверку и не предназначена для обнаружения всех изменений самого каталога, например появления новых файлов.
 
